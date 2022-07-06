@@ -1,10 +1,16 @@
-import { useRecoilValue } from "recoil"
-import { todosAtom } from "./atoms"
 import TodoItem from "./TodoItem";
+import { Todo } from "./types";
 
-const TodoList = () => {
-    const todos = useRecoilValue(todosAtom);
-
+interface Props {
+    todos: Todo[],
+    onToggleTodo: (id: number) => void;
+    onDeleteTodo: (id: number) => void;
+}
+const TodoList = ({ 
+    todos,
+    onToggleTodo,
+    onDeleteTodo, 
+}: Props) => {
     return (
         <ul>
           {
@@ -13,6 +19,8 @@ const TodoList = () => {
                     <TodoItem 
                         key={todo.id}
                         todo={todo}
+                        onToggleTodo={onToggleTodo}
+                        onDeleteTodo={onDeleteTodo} 
                     />
                 )
             })

@@ -1,37 +1,32 @@
-import {
-    RecoilState,
-    useRecoilState,
-} from 'recoil';
 import { useState } from 'react';
+import { Todo } from './types';
 
-import { todosAtom } from './atoms';
+interface Props {
+    onAddTodo: (todo: Todo) => void
+}
 
-const NewTodo = () => {
+const NewTodo = ({ onAddTodo }: Props) => {
     const [newTodoText, setNewTodoText] = useState<string>('');
-    const [todos, setTodos] = useRecoilState(todosAtom);
 
     return (
         <div className='new-todo'>
-          <input 
-            value={newTodoText}
-            onChange={event => setNewTodoText(event.currentTarget.value)}
-          />
-          <button
-            onClick={() => {
-                setTodos([
-                    {
+            <input
+                value={newTodoText}
+                onChange={event => setNewTodoText(event.currentTarget.value)}
+            />
+            <button
+                onClick={() => {
+                    onAddTodo({
                         id: Math.random(),
                         text: newTodoText,
                         completed: false
-                    },
-                    ...todos
-                ])
+                    })
 
-                setNewTodoText('');
-            }}
-          >
-            Add
-          </button>
+                    setNewTodoText('');
+                }}
+            >
+                Add
+            </button>
         </div>
     )
 }

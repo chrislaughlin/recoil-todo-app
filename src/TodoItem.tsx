@@ -1,33 +1,23 @@
-import { useSetRecoilState } from "recoil";
-import { Todo, todosAtom } from "./atoms";
+import { Todo } from "./types";
 
 interface Props {
     todo: Todo;
+    onToggleTodo: (id: number) => void;
+    onDeleteTodo: (id: number) => void;
 }
 
 const TodoItem = ({
     todo,
+    onToggleTodo,
+    onDeleteTodo,
 }: Props) => {
-    const updateTodos = useSetRecoilState(todosAtom);
-
     return (
         <li>
             <input
               type="checkbox"
               defaultChecked={todo.completed}
               onChange={() => {
-                updateTodos(current => {
-                    return current.map(item => {
-                        if (item.id === todo.id) {
-                            return {
-                                ...item,
-                                completed: !todo.completed
-                            }
-                        }
-
-                        return item
-                    })
-                })
+                onToggleTodo(todo.id)
               }}
             />
             <span>
@@ -35,9 +25,7 @@ const TodoItem = ({
             </span>
             <button
                 onClick={() => {
-                    updateTodos(current => {
-                        return current.filter(item => item.id !== todo.id)
-                    })
+                    onDeleteTodo(todo.id)
                 }}
             >
               X

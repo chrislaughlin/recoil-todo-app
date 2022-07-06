@@ -1,8 +1,12 @@
-import { useRecoilValue } from "recoil";
-import { todoProgressSelector } from "./atoms";
+import { Todo } from "./types";
 
-const TodoProgress = () => {
-    const progress = useRecoilValue(todoProgressSelector);
+interface Props {
+    todos: Todo[]
+}
+
+const TodoProgress = ({todos}:Props) => {
+    const completeCount = todos.filter(todo => todo.completed).length;
+    const progress = `${completeCount} out of ${todos.length} Todos Completed`
 
     return (
         <section className="todo-progress">
